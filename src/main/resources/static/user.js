@@ -4,7 +4,8 @@ let roleList = []; // глобальная переменная для хран�
 getAllUsers();
 
 function getAllUsers() {
-    $.getJSON("http://localhost:8080/admin/users", function (data) { // по ссылки получаем юзеров и добавляем их в дата
+    // $.getJSON("http://localhost:8080/admin/users", function (data) { // по ссылки получаем юзеров и добавляем их в дата
+    $.getJSON("http://" + window.location.host + "/admin/users", function (data) { // по ссылки получаем юзеров и добавляем их в дата
         console.log('1) данные с бэка /allUsers: ', JSON.stringify(data)) // для проверки в консоли
         let rows = '';
         $.each(data, function (key, user) { // проходимся по юзерам (получаем юзар)
@@ -29,11 +30,12 @@ function createRows(user) {
 
     let user_data = '<tr id=' + user.id + '>';
     user_data += '<td>' + user.id + '</td>';
-    user_data += '<td>' + user.username + '</td>';
+    user_data += '<td>' + (user.name) + '</td>';
     user_data += '<td>' + user.lastName + '</td>';
     user_data += '<td>' + user.phoneNumber + '</td>';
     user_data += '<td>' + user.email + '</td>';
     user_data += '<td>';
+    user_data.replaceAll("NULL", "");
     let roles = user.authorities; // через getJSON получаем массив ролей
     for (let role of roles) {
         user_data += role.name.replace('ROLE_', '') + ' ';
@@ -75,7 +77,7 @@ $(document).on('click', '.edit-btn', function () {
         dataType: 'json',
         success: function (user) {
             $('#editId').val(user.id);
-            $('#editName').val(user.username);
+            $('#editName').val(user.name);
             $('#editLastName').val(user.lastName);
             $('#editPhoneNumber').val(user.phoneNumber);
             $('#editEmail').val(user.email);
@@ -100,7 +102,7 @@ $('#editButton').on('click', (e) => {
 
     var editUser = {
         id: $("input[name='id']").val(),
-        username: $("input[name='username']").val(),
+        name: $("input[name='name']").val(),
         lastName: $("input[name='lastName']").val(),
         phoneNumber: $("input[name='phoneNumber']").val(),
         email: $("input[name='email']").val(),
@@ -141,7 +143,7 @@ $(document).on('click', '.del-btn', function () {
         dataType: 'json',
         success: function (user) {
             $('#delId').empty().val(user.id);
-            $('#delName').empty().val(user.username);
+            $('#delName').empty().val(user.name);
             $('#delLastName').empty().val(user.lastName);
             $('#delPhoneNumber').empty().val(user.phoneNumber);
             $('#delEmail').empty().val(user.email);
@@ -211,7 +213,7 @@ $("#addNewUserButton").on('click', () => {
     // e.preventDefault(); //Если будет вызван данный метод, то действие события по умолчанию не будет выполнено
     // alert('check: кнопка #addNewUserButton')
     let newUser = {
-        username: $('#name').val(),
+        name: $('#name').val(),
         lastName: $('#lastName').val(),
         phoneNumber: $('#phoneNumber').val(),
         email: $('#email').val(),

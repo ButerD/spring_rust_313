@@ -17,7 +17,7 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", length = 45)
+    @Column
     private String name;
 
     @Column
@@ -26,7 +26,7 @@ public class User implements UserDetails {
     @Column
     private String phoneNumber;
 
-    @Column()
+    @Column
     private String email;
 
     @Column(name = "sex", length = 45)

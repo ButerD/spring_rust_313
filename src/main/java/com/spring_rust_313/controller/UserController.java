@@ -46,6 +46,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("allUsers", userService.getAllUsers());
 		model.addAttribute("allRoles", roleService.getAllRoles());
+		System.out.println(userService.getAllUsers());
 		return "adminpage";
 	}
 }
